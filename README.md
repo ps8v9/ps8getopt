@@ -1,6 +1,6 @@
 ps8posix
 ========
 
-A few POSIX functions that MSVC does not provide.
+A few POSIX functions that MSVC doesn't provide.
 
 MINGW provides getopt(), but MSVC does not. I'll start there.
