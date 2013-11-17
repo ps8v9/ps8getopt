@@ -32,13 +32,16 @@ int ps8_optopt;
 
 int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
-    return '*'; /* decimal 42, which is an invalid result */
+    if (argc > ps8_optind)
+        return '*'; /* decimal 42, which is an invalid result */
+    return -1; /* no more elements in argv */
 }
 
 /*
  *  Some notes on the specs for getopt(), and the implementation of
  *  ps8_getopt():
  *
+ *  - getopt() shall return -1 when all command line options are parsed
  *  - single-char options only
  *  - allowed chars are A-Z, a-z, 0-9 (could use isalnum() for this)
  *  - the implementation may accept other characters as an extension
