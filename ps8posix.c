@@ -1,17 +1,17 @@
 /*
- *  ps8posix.c: A few POSIX functions that MSVC doesn't provide.
+ *  ps8getopt.c: An implementation of the getopt() function.
  *
  *  For specifications, see POSIX1.2008 standard, vol. 3, section 3.
  *  URL: http://pubs.opengroup.org/onlinepubs/9699919799/
  *
  *  AUTHOR  : Matthew J. Fisher
- *  REPO    : https://github.com/ps8v9/ps8posix
+ *  REPO    : https://github.com/ps8v9/ps8getopt
  *  LICENSE : This is free and unencumbered software released into the public
  *            domain. See the LICENSE file for further details.
  */
 #include <ctype.h>    /* for isalnum() */
 
-#include "ps8posix.h"
+#include "ps8getopt.h"
 
 int getopt(int argc, char* const argv[], const char *optstring)
 {
