@@ -13,9 +13,14 @@
 
 #include "ps8getopt.h"
 
-int getopt(int argc, char* const argv[], const char *optstring)
+char *ps8_optarg;
+int ps8_opterr;
+int ps8_optind = 1;
+int ps8_optopt;
+
+int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
-    return 42; /* There is obviously some work to do here! */
+    return '\*'; /* decimal 42, which is an invalid result */
 }
 
 /*

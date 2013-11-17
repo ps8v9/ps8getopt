@@ -7,11 +7,26 @@
  *            domain. See the LICENSE file for further details.
  */
 #include <assert.h>
+#include <stdio.h>
+#include <unistd.h> /* exists on POSIX systems and comes with MINGW */
 
 #include "ps8getopt.h"
 
+extern char *optarg;
+extern int opterr;
+extern int optind;
+extern int optopt;
+
+extern char *ps8_optarg;
+extern int ps8_opterr;
+extern int ps8_optind;
+extern int ps8_optopt;
+
 int main(int argc, char *argv[])
 {
-    /* The following assert will reveal getopt's unimplemented status. */
-    assert(getopt(argc, argv, ":abc:d") == -1);
+    printf("optind: %d; ps8_optind: %d\n", optind, ps8_optind);
+    assert(optind == ps8_optind);
+
+    char *optstring = "abc";
+    assert(getopt(argc, argv, optstring) == ps8_getopt(argc, argv, optstring));
 }

@@ -12,11 +12,6 @@
 #ifndef PS8_GETOPT_H
 #define PS8_GETOPT_H
 
-int getopt(int argc, char* const argv[], const char *optstring);
-
-char *optarg;
-int opterr;
-int optind;
-int optopt;
+int ps8_getopt(int argc, char* const argv[], const char *optstring);
 
 #endif /* PS8_GETOPT_H */
