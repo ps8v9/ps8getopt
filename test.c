@@ -37,6 +37,7 @@ bool two_ungrouped_options_one_operand_test(const char* optstring);
 bool two_grouped_options_one_operand_test(const char* optstring);
 bool three_ungrouped_options_one_operand_test(const char* optstring);
 bool three_grouped_options_one_operand_test(const char* optstring);
+bool one_option_with_optarg_no_operands_test(const char* optstring);
 
 int main()
 {
@@ -166,7 +167,13 @@ int main()
         failed++;
     print_hr();
 
+    optstring = ":a:"; /* Note this change! */
     optind = 1; ps8_optind = 1; /* reset */
+    if (one_option_with_optarg_no_operands_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
 
     total = passed + failed;
     printf("Passed %d of %d tests.\n", passed, total);
@@ -354,3 +361,26 @@ bool three_grouped_options_one_operand_test(const char* optstring)
 
     return validation_test(argc, argv, optstring);
 }
+
+/* Test with 1 option that takes an optarg, and 0 operands. */
+bool one_option_with_optarg_no_operands_test(const char* optstring)
+{
+    int argc = 2;
+    char *argv[] = { "test", "-afoo" };
+    bool result;
+
+    echo_argv(argc, argv);
+    printf("Testing with 1 option that takes an optarg, and 0 operands.\n");
+
+    result = validation_test(argc, argv, optstring);
+
+    printf("ps8_optarg: %s\n", ps8_optarg);
+    printf("ps8_opterr: %d\n", ps8_opterr);
+    printf("ps8_optind: %d\n", ps8_optind);
+    printf("ps8_optopt: %d\n", ps8_optopt);
+
+    result ^= (ps8_optarg == NULL);
+    result ^= (ps8_optind > argc);
+    return result;
+}
+

@@ -45,13 +45,41 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
     optchar = optgroup[optchar_offset];
     optstr_len = strlen(optstring);
 
+/*  TODO:
+ *  If the option takes an argument, getopt() shall set the variable optarg to
+ *  point to the option-argument as follows:
+ *    1. If the option was the last character in the string pointed to by an
+ *       element of argv, then optarg shall contain the next element of argv,
+ *       and optind shall be incremented by 2. If the resulting value of optind
+ *       is greater than argc, this indicates a missing option-argument, and
+ *       getopt() shall return an error indication.
+ *    2. Otherwise, optarg shall point to the string following the option
+ *       character in that element of argv, and optind shall be incremented
+ *       by 1.
+*/
     for (int i = 0; i < optstr_len; ++i)
         if (optstring[i] == optchar) {
             if (strlen(optgroup) == optchar_offset + 1) {
                 ps8_optind++;
                 optchar_offset = 1;
-            } else
+            } else {
                 optchar_offset++;
+                if (optgroup[optchar_offset] == ':') {
+                    /* Option takes an argument. */
+                    if (optchar_offset + 1 == strlen(optgroup)) {
+                        /* Option was the last char in optgroup. */
+                        ps8_optarg = argv[ps8_optind + 1];
+                        ps8_optind += 2;
+                        if (ps8_optind > argc) {
+                            /* How to "return an error indication" here? */
+                        }
+                    } else {
+                        ps8_optarg = optgroup + optchar_offset + 1;
+                        ps8_optind++;
+                        optchar_offset = 1;
+                    }
+                }
+            }
             return optchar;
         }
 
