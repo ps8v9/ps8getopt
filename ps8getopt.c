@@ -25,7 +25,6 @@ int ps8_optopt;
 int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
     int optstring_sz = strlen(optstring);
-    int optgrp_sz;
     char optch;
 
     if (argc <= ps8_optind)
@@ -44,15 +43,12 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
     /* TODO: Handle grouped options. */
     /* TODO: Handle mandatory option arguments. */
     /* TODO: Handle optional option arguments. */
-    optgrp_sz = strlen(argv[ps8_optind]);
-    for (int i = 1; i <= optgrp_sz; ++i) {
-        optch = argv[ps8_optind][i];
-        for (int j = 0; j < optstring_sz; ++j)
-            if (optstring[j] == optch) {
-                ps8_optind++;
-                return optch;
-            }
-    }
+    optch = argv[ps8_optind][1];
+    for (int i = 0; i < optstring_sz; ++i)
+        if (optstring[i] == optch) {
+            ps8_optind++;
+            return optch;
+        }
 
     return '?';
 }
