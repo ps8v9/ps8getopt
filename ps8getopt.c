@@ -42,6 +42,8 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
     }
 
     /* TODO: Handle grouped options. */
+    /* TODO: Handle mandatory option arguments. */
+    /* TODO: Handle optional option arguments. */
     optgrp_sz = strlen(argv[ps8_optind]);
     for (int i = 1; i <= optgrp_sz; ++i) {
         optch = argv[ps8_optind][i];
