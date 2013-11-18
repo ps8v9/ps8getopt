@@ -40,9 +40,6 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
         return -1;
     }
 
-    /* TODO: Handle grouped options. */
-    /* TODO: Handle mandatory option arguments. */
-    /* TODO: Handle optional option arguments. */
     optch = argv[ps8_optind][1];
     for (int i = 0; i < optstring_sz; ++i)
         if (optstring[i] == optch) {
@@ -73,7 +70,7 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
  *  - optstring is a string of recognized opt characters
  *  - a colon after a character indicates that it takes an option
  *  - optind is the index of the next element of argv to be processed
- *  - DONE: optind shall be initialized to 1 "by the system"
+ *  - optind shall be initialized to 1 "by the system"
  *  - getopt shall update optind when done with each element of argv
  *  - not specified: what happens if app sets optind to 0 before calling getopt
  *  - not specified: when an element contains multiple opt chars, how does
