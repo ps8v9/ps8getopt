@@ -10,7 +10,10 @@
  *            domain. See the LICENSE file for further details.
  */
 #include <ctype.h> /* for isalnum() */
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "ps8getopt.h"
 
@@ -19,22 +22,44 @@ int ps8_opterr;
 int ps8_optind = 1;
 int ps8_optopt;
 
-/*
- *  TODO:
- *   - Start with the simplest case.
- *   - Ignore chars in optstring that are not a colon or alnum char.
- *   - Ignore all colons in optstring.
- *   - Ignore opterr and optopt.
- *   - Assume that there are no grouped option chars in argv.
- *   - Assume that there are no option arguments in argv.
- *   - Return the next option char from argv that matches a char from optstring.
- */
-
 int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
-    if (argc > ps8_optind)
-        return '*'; /* decimal 42, which is an invalid result */
-    return -1; /* no more elements in argv */
+    int optstring_sz = strlen(optstring);
+    int optgrp_sz;
+    char ch;
+    bool matched = false;
+
+    if (argc <= ps8_optind)
+        return -1; /* no more args */
+
+    if ((argv[ps8_optind] == NULL)
+      || (*argv[ps8_optind] != '-')
+      || (strcmp(argv[ps8_optind], "-") == 0))
+        return -1;
+
+    if (strcmp(argv[ps8_optind], "--") == 0) {
+        ps8_optind++;
+        return -1;
+    }
+
+    if (argv[ps8_optind][0] == '-') {
+        optgrp_sz = strlen(argv[ps8_optind]);
+        for (int i = 1; !matched && i <= optgrp_sz; ++i) {
+            ch = argv[ps8_optind][i];
+            if (ch)
+                for (int j = 0; j < optstring_sz; ++j)
+                    if (ch == optstring[j]) {
+                        matched = true;
+                        break;
+                    }
+        }
+    } else
+        return -1; /* no more groups */
+
+    if (matched)
+        return ch;
+
+    return '*'; /* What to do here? */
 }
 
 /*
