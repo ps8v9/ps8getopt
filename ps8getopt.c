@@ -41,15 +41,18 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
         return -1;
     }
 
+    /* TODO: Handle grouped options. */
     optgrp_sz = strlen(argv[ps8_optind]);
     for (int i = 1; i <= optgrp_sz; ++i) {
         optch = argv[ps8_optind][i];
         for (int j = 0; j < optstring_sz; ++j)
-            if (optstring[j] == optch)
+            if (optstring[j] == optch) {
+                ps8_optind++;
                 return optch;
+            }
     }
 
-    return '*'; /* What to do here? */
+    return '?';
 }
 
 /*

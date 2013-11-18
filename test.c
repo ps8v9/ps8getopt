@@ -28,34 +28,103 @@ void print_hr();
 bool initialization_test();
 bool validation_test(int argc, char* const argv[], const char *optstring);
 bool no_options_no_operands_test(const char* optstring);
+bool one_option_no_operands_test(const char* optstring);
+bool bad_option_no_operands_test(const char* optstring);
 bool no_options_one_operand_test(const char* optstring);
 bool one_option_one_operand_test(const char* optstring);
+bool bad_option_one_operand_test(const char* optstring);
 bool two_ungrouped_options_one_operand_test(const char* optstring);
 bool two_grouped_options_one_operand_test(const char* optstring);
 
 int main()
 {
-    bool passed; /* Were all tests passed? */
+    int passed = 0; /* number of tests passed */
+    int failed = 0; /* number of tests failed */
+    int total  = 0;  /* total number of tests */
+
     char *optstring = ":a-*$b:c";
+    show_supported_optstring(optstring);
+    print_hr();
 
-    show_supported_optstring(optstring);                         print_hr();
-    passed = initialization_test();                              print_hr();
+    if (initialization_test())
+        passed++;
+    else
+        failed++;
+    print_hr();
 
-    passed &= no_options_no_operands_test(optstring);                           print_hr();
+    optind = 1; ps8_optind = 1; /* reset */
+    if (no_options_no_operands_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
 
-    passed &= no_options_one_operand_test(optstring);                       print_hr();
+    optind = 1; ps8_optind = 1; /* reset */
+    if (one_option_no_operands_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (bad_option_no_operands_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (no_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (one_option_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (bad_option_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (two_ungrouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    if (two_ungrouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (two_grouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    if (two_grouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
     optind = 1; ps8_optind = 1; /* reset */
 
-    passed &= one_option_one_operand_test(optstring);            print_hr();
-    optind = 1; ps8_optind = 1; /* reset */
+    total = passed + failed;
+    printf("Passed %d of %d tests.\n", passed, total);
+    printf("Failed %d of %d tests.\n", failed, total);
 
-    passed &= two_ungrouped_options_one_operand_test(optstring); print_hr();
-    optind = 1; ps8_optind = 1; /* reset */
-
-    passed &= two_grouped_options_one_operand_test(optstring);   print_hr();
-    optind = 1; ps8_optind = 1; /* reset */
-
-    return (passed) ? 0 : 1;
+    return failed;
 }
 
 /* Show supported chars from optstring. */
@@ -130,6 +199,30 @@ bool no_options_no_operands_test(const char* optstring)
     return validation_test(argc, argv, optstring);
 }
 
+/* Test with 1 option and 0 operands. */
+bool one_option_no_operands_test(const char* optstring)
+{
+    int argc = 2;
+    char *argv[] = { "test", "-a" };
+
+    echo_argv(argc, argv);
+    printf("Testing with 1 option and 0 operands.\n");
+
+    return validation_test(argc, argv, optstring);
+}
+
+/* Test with 1 bad option and 0 operands. */
+bool bad_option_no_operands_test(const char* optstring)
+{
+    int argc = 2;
+    char *argv[] = { "test", "-d" };
+
+    echo_argv(argc, argv);
+    printf("Testing with 1 bad option and 0 operands.\n");
+
+    return validation_test(argc, argv, optstring);
+}
+
 /* Test with 0 options and 1 operand. */
 bool no_options_one_operand_test(const char* optstring)
 {
@@ -150,6 +243,18 @@ bool one_option_one_operand_test(const char* optstring)
 
     echo_argv(argc, argv);
     printf("Testing with 1 option and 1 operand.\n");
+
+    return validation_test(argc, argv, optstring);
+}
+
+/* Test with 1 bad option and 1 operand. */
+bool bad_option_one_operand_test(const char* optstring)
+{
+    int argc = 3;
+    char *argv[] = { "test", "-d", "bc"};
+
+    echo_argv(argc, argv);
+    printf("Testing with 1 bad option and 1 operand.\n");
 
     return validation_test(argc, argv, optstring);
 }
