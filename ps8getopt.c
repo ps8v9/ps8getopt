@@ -26,14 +26,13 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
     int optstring_sz = strlen(optstring);
     int optgrp_sz;
-    char ch;
-    bool matched = false;
+    char optch;
 
     if (argc <= ps8_optind)
         return -1; /* no more args */
 
     if ((argv[ps8_optind] == NULL)
-      || (*argv[ps8_optind] != '-')
+      || (argv[ps8_optind][0] != '-')
       || (strcmp(argv[ps8_optind], "-") == 0))
         return -1;
 
@@ -42,22 +41,13 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
         return -1;
     }
 
-    if (argv[ps8_optind][0] == '-') {
-        optgrp_sz = strlen(argv[ps8_optind]);
-        for (int i = 1; !matched && i <= optgrp_sz; ++i) {
-            ch = argv[ps8_optind][i];
-            if (ch)
-                for (int j = 0; j < optstring_sz; ++j)
-                    if (ch == optstring[j]) {
-                        matched = true;
-                        break;
-                    }
-        }
-    } else
-        return -1; /* no more groups */
-
-    if (matched)
-        return ch;
+    optgrp_sz = strlen(argv[ps8_optind]);
+    for (int i = 1; i <= optgrp_sz; ++i) {
+        optch = argv[ps8_optind][i];
+        for (int j = 0; j < optstring_sz; ++j)
+            if (optstring[j] == optch)
+                return optch;
+    }
 
     return '*'; /* What to do here? */
 }
