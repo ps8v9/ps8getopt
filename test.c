@@ -35,6 +35,8 @@ bool one_option_one_operand_test(const char* optstring);
 bool bad_option_one_operand_test(const char* optstring);
 bool two_ungrouped_options_one_operand_test(const char* optstring);
 bool two_grouped_options_one_operand_test(const char* optstring);
+bool three_ungrouped_options_one_operand_test(const char* optstring);
+bool three_grouped_options_one_operand_test(const char* optstring);
 
 int main()
 {
@@ -42,7 +44,7 @@ int main()
     int failed = 0; /* number of tests failed */
     int total  = 0;  /* total number of tests */
 
-    char *optstring = ":a-*$b:c";
+    char *optstring = ":a-*$bc1:2";
     show_supported_optstring(optstring);
     print_hr();
 
@@ -100,6 +102,8 @@ int main()
     else
         failed++;
     print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
     if (two_ungrouped_options_one_operand_test(optstring))
         passed++;
     else
@@ -112,7 +116,51 @@ int main()
     else
         failed++;
     print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
     if (two_grouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (three_ungrouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
+    if (three_ungrouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
+    if (three_ungrouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+
+    optind = 1; ps8_optind = 1; /* reset */
+    if (three_grouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
+    if (three_grouped_options_one_operand_test(optstring))
+        passed++;
+    else
+        failed++;
+    print_hr();
+    printf("Repeating test without resetting option indexes.\n");
+    printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
+    if (three_grouped_options_one_operand_test(optstring))
         passed++;
     else
         failed++;
@@ -279,6 +327,30 @@ bool two_grouped_options_one_operand_test(const char* optstring)
 
     echo_argv(argc, argv);
     printf("Testing with 2 grouped options and 1 operand.\n");
+
+    return validation_test(argc, argv, optstring);
+}
+
+/* Test with 3 ungrouped options and 1 operand. */
+bool three_ungrouped_options_one_operand_test(const char* optstring)
+{
+    int argc = 5;
+    char *argv[] = { "test", "-a", "-b", "-c", "d"};
+
+    echo_argv(argc, argv);
+    printf("Testing with 3 ungrouped options and 1 operand.\n");
+
+    return validation_test(argc, argv, optstring);
+}
+
+/* Test with 3 grouped options and 1 operand. */
+bool three_grouped_options_one_operand_test(const char* optstring)
+{
+    int argc = 3;
+    char *argv[] = { "test", "-abc", "d"};
+
+    echo_argv(argc, argv);
+    printf("Testing with 3 grouped options and 1 operand.\n");
 
     return validation_test(argc, argv, optstring);
 }

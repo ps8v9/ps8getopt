@@ -9,7 +9,7 @@
  *  LICENSE : This is free and unencumbered software released into the public
  *            domain. See the LICENSE file for further details.
  */
-#include <ctype.h> /* for isalnum() */
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,29 +22,37 @@ int ps8_opterr;
 int ps8_optind = 1;
 int ps8_optopt;
 
+static int optchar_offset = 1;
+
 int ps8_getopt(int argc, char* const argv[], const char *optstring)
 {
-    int optstring_sz = strlen(optstring);
-    char optch;
+    char *optgroup;
+    char  optchar;
+    int   optstr_len;
 
     if (argc <= ps8_optind)
-        return -1; /* no more args */
-
-    if ((argv[ps8_optind] == NULL)
-      || (argv[ps8_optind][0] != '-')
-      || (strcmp(argv[ps8_optind], "-") == 0))
         return -1;
 
-    if (strcmp(argv[ps8_optind], "--") == 0) {
+    optgroup = argv[ps8_optind];
+
+    if (optgroup == NULL || optgroup[0] != '-' || (strcmp(optgroup, "-") == 0))
+        return -1;
+    if (strcmp(optgroup, "--") == 0) {
         ps8_optind++;
         return -1;
     }
 
-    optch = argv[ps8_optind][1];
-    for (int i = 0; i < optstring_sz; ++i)
-        if (optstring[i] == optch) {
-            ps8_optind++;
-            return optch;
+    optchar = optgroup[optchar_offset];
+    optstr_len = strlen(optstring);
+
+    for (int i = 0; i < optstr_len; ++i)
+        if (optstring[i] == optchar) {
+            if (strlen(optgroup) == optchar_offset + 1) {
+                ps8_optind++;
+                optchar_offset = 1;
+            } else
+                optchar_offset++;
+            return optchar;
         }
 
     return '?';
