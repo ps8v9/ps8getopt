@@ -1,0 +1,208 @@
+optstring: :a-*$bc1:2
+Supported chars in optstring: :abc1:2
+-----
+Testing the initialization of extern variables.
+Passed the test.
+  optarg: (null); ps8_optarg: (null)
+  opterr: 1; ps8_opterr: 1
+  optind: 1; ps8_optind: 1
+  optopt: 63; ps8_optopt: 63
+-----
+Command line:
+  argv[0]: test
+Testing with 0 options and 0 operands.
+Passed the test.
+  getopt returned: -1
+  ps8_getopt returned: -1
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -a
+Testing with 1 option and 0 operands.
+???
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -d
+Testing with 1 bad option and 0 operands.
+Passed the test.
+  getopt returned: 63
+  ps8_getopt returned: 63
+-----
+Command line:
+  argv[0]: test
+  argv[1]: abc
+Testing with 0 options and 1 operand.
+Passed the test.
+  getopt returned: -1
+  ps8_getopt returned: -1
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: bc
+Testing with 1 option and 1 operand.
+???
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -d
+  argv[2]: bc
+Testing with 1 bad option and 1 operand.
+Passed the test.
+  getopt returned: 63
+  ps8_getopt returned: 63
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: -b
+  argv[3]: c
+Testing with 2 ungrouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Repeating test without resetting option indexes.
+  optind: 2; ps8_optind: 2
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: -b
+  argv[3]: c
+Testing with 2 ungrouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 98
+  ps8_getopt returned: 98
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -ab
+  argv[2]: c
+Testing with 2 grouped options and 1 operand.
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Repeating test without resetting option indexes.
+  optind: 1; ps8_optind: 1
+Command line:
+  argv[0]: test
+  argv[1]: -ab
+  argv[2]: c
+Testing with 2 grouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 98
+  ps8_getopt returned: 98
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: -b
+  argv[3]: -c
+  argv[4]: d
+Testing with 3 ungrouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Repeating test without resetting option indexes.
+  optind: 2; ps8_optind: 2
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: -b
+  argv[3]: -c
+  argv[4]: d
+Testing with 3 ungrouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 98
+  ps8_getopt returned: 98
+-----
+Repeating test without resetting option indexes.
+  optind: 3; ps8_optind: 3
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: -b
+  argv[3]: -c
+  argv[4]: d
+Testing with 3 ungrouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 99
+  ps8_getopt returned: 99
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -abc
+  argv[2]: d
+Testing with 3 grouped options and 1 operand.
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+-----
+Repeating test without resetting option indexes.
+  optind: 1; ps8_optind: 1
+Command line:
+  argv[0]: test
+  argv[1]: -abc
+  argv[2]: d
+Testing with 3 grouped options and 1 operand.
+Passed the test.
+  getopt returned: 98
+  ps8_getopt returned: 98
+-----
+Repeating test without resetting option indexes.
+  optind: 1; ps8_optind: 1
+Command line:
+  argv[0]: test
+  argv[1]: -abc
+  argv[2]: d
+Testing with 3 grouped options and 1 operand.
+???
+Passed the test.
+  getopt returned: 99
+  ps8_getopt returned: 99
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -afoo
+Testing with 1 opt that takes an inline arg, and 0 operands.
+Option takes an argument.
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+optarg: foo; ps8_optarg: foo
+opterr: 1; ps8_opterr: 1
+optind: 2; ps8_optind: 2
+optopt: 100; ps8_optopt: 100
+-----
+Command line:
+  argv[0]: test
+  argv[1]: -a
+  argv[2]: foo
+Testing with 1 opt that takes a separate arg, and 0 operands.
+???
+Passed the test.
+  getopt returned: 97
+  ps8_getopt returned: 97
+Failed the test:
+  optarg: foo; ps8_optarg: foo
+  opterr: 1; ps8_opterr: 1
+  optind: 3; ps8_optind: 2
+  optopt: 100; ps8_optopt: 100
+-----
+Passed 17 of 19 tests.
+Failed 2 of 19 tests.

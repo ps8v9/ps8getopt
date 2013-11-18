@@ -18,7 +18,7 @@
 #include "ps8getopt.h"
 
 char *ps8_optarg;
-int ps8_opterr;
+int ps8_opterr = 1;
 int ps8_optind = 1;
 int ps8_optopt;
 
@@ -60,12 +60,13 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
     for (int i = 0; i < optstr_len; ++i)
         if (optstring[i] == optchar) {
             if (strlen(optgroup) == optchar_offset + 1) {
+                printf("???\n");
                 ps8_optind++;
                 optchar_offset = 1;
             } else {
-                optchar_offset++;
-                if (optgroup[optchar_offset] == ':') {
+                if (optstring[i + 1] == ':') {
                     /* Option takes an argument. */
+                    printf("Option takes an argument.\n");
                     if (optchar_offset + 1 == strlen(optgroup)) {
                         /* Option was the last char in optgroup. */
                         ps8_optarg = argv[ps8_optind + 1];
@@ -78,6 +79,8 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
                         ps8_optind++;
                         optchar_offset = 1;
                     }
+                } else {
+                    optchar_offset++;
                 }
             }
             return optchar;
