@@ -54,17 +54,20 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
         }
     }
 
-    if (! matched)
+    if (! matched) {
+        ps8_optopt = optchar;
+        ps8_optind++;
         return '?';
+    }
 
     /* Found a valid opt char. What do we know about it? */
 
     bool takes_arg = (optstring[i + 1] == ':');
     bool terminates_optgroup = (optgroup[optchar_offset + 1] == '\0');
 
-    /* Do the specified things! */
+    /* Handle the case where it takes no argument. */
 
-    if (!takes_arg) {
+    if (! takes_arg) {
         if (terminates_optgroup) {
             ps8_optind++;
             optchar_offset = 1;
@@ -74,13 +77,19 @@ int ps8_getopt(int argc, char* const argv[], const char *optstring)
         return optchar;
     }
 
+    /* Handle the case where takes an argument. */
+
+    bool arg_exists = (argc >= ps8_optind + 2);
+
     if (terminates_optgroup) {
-        ps8_optarg = argv[ps8_optind + 1];
-        ps8_optind += 2;
-        if (ps8_optind > argc) {
-            /* Option argument is missing. */
-            /* What does the real getopt do here? */
-            return '?';
+        if (arg_exists) {
+            ps8_optarg = argv[ps8_optind + 1];
+            ps8_optind += 2;
+        } else {
+            ps8_optind++;
+            ps8_optarg = NULL;
+            ps8_optopt = optchar;
+            return ':';
         }
     } else {
         ps8_optarg = optgroup + optchar_offset + 1;

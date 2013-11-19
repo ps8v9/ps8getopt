@@ -22,7 +22,7 @@ extern int ps8_opterr;
 extern int ps8_optind;
 extern int ps8_optopt;
 
-void show_supported_optstring(const char *optstring);
+void reset();
 void echo_test_setup(int argc, char* const argv[], const char *optstring);
 void print_hr();
 bool test_initialization();
@@ -41,6 +41,8 @@ bool test_opt_w_inline_arg(const char* optstring);
 bool test_opt_w_separate_arg(const char* optstring);
 bool test_opt_w_missing_arg(const char* optstring);
 
+const bool quiet = true;
+
 int main()
 {
     int passed = 0; /* number of tests passed */
@@ -48,148 +50,85 @@ int main()
     int total  = 0;  /* total number of tests */
 
     char *optstring = ":a-*$bc1:2";
-    show_supported_optstring(optstring);
+
+    (test_initialization()) ? passed++ : failed++;
     print_hr();
 
-    if (test_initialization())
-        passed++;
-    else
-        failed++;
+    (test_0_opts_0_operands(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_0_opts_0_operands(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_1_opt_0_operands(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_1_opt_0_operands(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_bad_opt_0_operands(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_bad_opt_0_operands(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_0_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_0_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_1_opt_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_1_opt_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_bad_opt_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_bad_opt_1_operand(optstring))
-        passed++;
-    else
-        failed++;
-    print_hr();
-
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_2_ungrouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_2_ungrouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_2_ungrouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_2_ungrouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_2_grouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_2_grouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_2_grouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_2_grouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_3_ungrouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_3_ungrouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_3_ungrouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_3_ungrouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_3_ungrouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_3_ungrouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_3_grouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_3_grouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_3_grouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_3_grouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
     printf("Repeating test without resetting option indexes.\n");
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
-    if (test_3_grouped_opts_1_operand(optstring))
-        passed++;
-    else
-        failed++;
+    (test_3_grouped_opts_1_operand(optstring)) ? passed++ : failed++;
     print_hr();
 
     optstring = ":a:"; /* Note this change! */
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_opt_w_inline_arg(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_opt_w_inline_arg(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_opt_w_separate_arg(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_opt_w_separate_arg(optstring)) ? passed++ : failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
-    if (test_opt_w_missing_arg(optstring))
-        passed++;
-    else
-        failed++;
+    reset();
+    (test_opt_w_missing_arg(optstring)) ? passed++ : failed++;
     print_hr();
 
     total = passed + failed;
@@ -199,15 +138,11 @@ int main()
     return failed;
 }
 
-/* Show supported chars from optstring. */
-void show_supported_optstring(const char *optstring)
+/* Reset external indexes to simulate a freshly launched program. */
+void reset()
 {
-    printf("optstring: %s\n", optstring);
-    printf("Supported chars in optstring: ");
-    for (int i = 0; optstring[i] != '\0'; ++i)
-       if (isalnum(optstring[i]) || optstring[i] == ':')
-           putchar(optstring[i]);
-    putchar('\n');
+    optind = 1;
+    ps8_optind = 1;
 }
 
 /* Echo the elements of the argv vector. */
@@ -272,12 +207,7 @@ bool test_validation(int argc, char* const argv[], const char *optstring)
     printf("  getopt returned: %d\n", a);
     printf("  ps8_getopt returned: %d\n", b);
 
-    if (ps8_optarg == NULL || optopt == '?')
-        printf("  optarg: %s; ps8_optarg: %s\n", optarg, ps8_optarg);
-    else
-        printf("  optarg: %s; (long)ps8_optarg: %ld\n", optarg,
-          (long)ps8_optarg);
-
+    printf("  optarg: %s; ps8_optarg: %s\n", optarg, ps8_optarg);
     printf("  opterr: %d; ps8_opterr: %d\n", opterr, ps8_opterr);
     printf("  optind: %d; ps8_optind: %d\n", optind, ps8_optind);
     printf("  optopt: %d; ps8_optopt: %d\n", optopt, ps8_optopt);
@@ -287,8 +217,8 @@ bool test_validation(int argc, char* const argv[], const char *optstring)
 
 bool test_0_opts_0_operands(const char* optstring)
 {
-    int argc = 1;
-    char *argv[] = { "test" };
+    int argc = 2;
+    char *argv[] = { "test", "--" };
 
     printf("Testing with 0 options and 0 operands.\n");
     echo_test_setup(argc, argv, optstring);
