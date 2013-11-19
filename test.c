@@ -272,7 +272,7 @@ bool test_validation(int argc, char* const argv[], const char *optstring)
     printf("  getopt returned: %d\n", a);
     printf("  ps8_getopt returned: %d\n", b);
 
-    if (ps8_optarg == NULL)
+    if (ps8_optarg == NULL || optopt == '?')
         printf("  optarg: %s; ps8_optarg: %s\n", optarg, ps8_optarg);
     else
         printf("  optarg: %s; (long)ps8_optarg: %ld\n", optarg,
