@@ -56,49 +56,49 @@ int main()
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_0_opts_0_operands(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_1_opt_0_operands(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_bad_opt_0_operands(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_0_opts_1_operand(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_1_opt_1_operand(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_bad_opt_1_operand(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_2_ungrouped_opts_1_operand(optstring))
         passed++;
     else
@@ -112,7 +112,7 @@ int main()
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_2_grouped_opts_1_operand(optstring))
         passed++;
     else
@@ -126,7 +126,7 @@ int main()
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_3_ungrouped_opts_1_operand(optstring))
         passed++;
     else
@@ -147,7 +147,7 @@ int main()
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_3_grouped_opts_1_operand(optstring))
         passed++;
     else
@@ -170,14 +170,14 @@ int main()
 
     optstring = ":a:"; /* Note this change! */
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_opt_w_inline_arg(optstring))
         passed++;
     else
         failed++;
     print_hr();
 
-    optind = 1; ps8_optind = 1; /* reset */
+    optind = 1; ps8_optind = 1; optopt = 63; /* reset */
     if (test_opt_w_separate_arg(optstring))
         passed++;
     else
@@ -228,7 +228,7 @@ bool test_initialization()
     result = (ps8_optarg == optarg);
     result &= (ps8_opterr == opterr);
     result &= (ps8_optind == optind);
-    result &= (ps8_optopt = optopt);
+    result &= (ps8_optopt == optopt);
 
     if (result)
         printf("Passed the test.\n");
@@ -395,7 +395,7 @@ bool test_opt_w_inline_arg(const char* optstring)
     result &= (ps8_optarg == optarg);
     result &= (ps8_opterr == opterr);
     result &= (ps8_optind == optind);
-    result &= (ps8_optopt = optopt);
+    result &= (ps8_optopt == optopt);
 
     printf("optarg: %s; ps8_optarg: %s\n", optarg, ps8_optarg);
     printf("opterr: %d; ps8_opterr: %d\n", opterr, ps8_opterr);
@@ -419,7 +419,7 @@ bool test_opt_w_separate_arg(const char* optstring)
     result &= (ps8_optarg == optarg);
     result &= (ps8_opterr == opterr);
     result &= (ps8_optind == optind);
-    result &= (ps8_optopt = optopt);
+    result &= (ps8_optopt == optopt);
 
     if (result)
         printf("Passed the test.\n");
@@ -432,4 +432,3 @@ bool test_opt_w_separate_arg(const char* optstring)
     printf("  optopt: %d; ps8_optopt: %d\n", optopt, ps8_optopt);
     return result;
 }
-
